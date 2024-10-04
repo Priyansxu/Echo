@@ -10,7 +10,7 @@ class APIProvider:
     delay = 0
     status = True
 
-    def __init__(self, cc, target, mode, delay=0):
+    def __init__(self, cc="252", target, mode, delay=0):  # Default country code for Somalia is set
         try:
             PROVIDERS = json.load(open('apidata.json', 'r'))
         except Exception:
@@ -18,7 +18,7 @@ class APIProvider:
                 "https://github.com/TheSpeedX/TBomb/raw/master/apidata.json"
             ).json()
         self.config = None
-        self.cc = cc
+        self.cc = cc  # Use the Somalia country code by default
         self.target = target
         self.mode = mode
         self.index = 0
@@ -26,6 +26,8 @@ class APIProvider:
         self.api_version = PROVIDERS.get("version", "2")
         APIProvider.delay = delay
         providers = PROVIDERS.get(mode.lower(), {})
+        
+        # Fetch providers for Somalia (252) by default
         APIProvider.api_providers = providers.get(cc, [])
         if len(APIProvider.api_providers) < 10:
             APIProvider.api_providers += providers.get("multi", [])
