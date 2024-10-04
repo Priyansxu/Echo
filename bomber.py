@@ -202,8 +202,7 @@ def notifyen():
 def get_phone_info():
     while True:
         target = ""
-        cc = input(mesgdcrt.CommandMessage(
-            "Enter your country code (Without +): "))
+        cc = input(mesgdcrt.CommandMessage("Enter your country code (Without +): "))
         cc = format_phone(cc)
         if not country_codes.get(cc, False):
             mesgdcrt.WarningMessage(
@@ -215,8 +214,8 @@ def get_phone_info():
         target = format_phone(target)
         if ((len(target) <= 6) or (len(target) >= 12)):
             mesgdcrt.WarningMessage(
-                "The phone number ({target})".format(target=target) +
-                "that you have entered is invalid")
+                "Numberka aad galisay ({target})".format(target=target) +
+                " ma ahan mid jira fadlan hubi")
             continue
         return (cc, target)
 
@@ -267,7 +266,7 @@ def workernode(mode, cc, target, count, delay, max_threads):
         "Press [CTRL+Z] to suspend the bomber or [ENTER] to resume it"))
 
     if len(APIProvider.api_providers) == 0:
-        mesgdcrt.FailureMessage("Your country/target is not supported yet")
+        mesgdcrt.FailureMessage("wadanka/target aad galisay ma tagersanin")
         mesgdcrt.GeneralMessage("Feel free to reach out to us")
         input(mesgdcrt.CommandMessage("Press [ENTER] to exit"))
         bann_text()
