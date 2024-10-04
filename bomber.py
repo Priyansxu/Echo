@@ -202,7 +202,9 @@ def notifyen():
 def get_phone_info():
     while True:
         target = ""
-        cc = input(mesgdcrt.CommandMessage("Enter your country code (Without +): "))
+        # Automatically set Somalia's country code as default (252)
+        cc = input(mesgdcrt.CommandMessage(
+            "Enter your country code (Without +) [Default: 252 for Somalia]: ")) or "252"
         cc = format_phone(cc)
         if not country_codes.get(cc, False):
             mesgdcrt.WarningMessage(
@@ -214,8 +216,8 @@ def get_phone_info():
         target = format_phone(target)
         if ((len(target) <= 6) or (len(target) >= 12)):
             mesgdcrt.WarningMessage(
-                "Numberka aad galisay ({target})".format(target=target) +
-                " ma ahan mid jira fadlan hubi")
+                "The phone number ({target})".format(target=target) +
+                " that you have entered is invalid")
             continue
         return (cc, target)
 
