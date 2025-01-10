@@ -123,7 +123,7 @@ def do_zip_update():
         mesgdcrt.WarningMessage(
             "Grab The Latest one From https://github.com/TheSpeedX/TBomb.git")
 
-    sys.exit()
+    ()
 
 
 def do_git_update():
