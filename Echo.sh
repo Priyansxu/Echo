@@ -2,20 +2,21 @@
 
 detect_distro() {
     if [[ "$OSTYPE" == linux-android* ]]; then
-            distro="termux"
+        distro="termux"
     fi
 
     if [ -z "$distro" ]; then
-        distro=$(ls /etc | awk 'match($0, "(.+?)[-_](?:release|version)", groups) {if(groups[1] != "os") {print groups[1]}}')
-    fi
-
-    if [ -z "$distro" ]; then
+        # Simplified distro detection using /etc/os-release as primary method
         if [ -f "/etc/os-release" ]; then
-            distro="$(source /etc/os-release && echo $ID)"
+            distro="$(source /etc/os-release && echo "$ID")"
         elif [ "$OSTYPE" == "darwin" ]; then
             distro="darwin"
         else 
-            distro="invalid"
+            # Fallback to basic detection
+            distro=$(ls /etc/*-release 2>/dev/null | head -n1 | cut -d'/' -f3 | cut -d'-' -f1)
+            if [ -z "$distro" ]; then
+                distro="invalid"
+            fi
         fi
     fi
 }
@@ -23,26 +24,27 @@ detect_distro() {
 pause() {
     read -n1 -r -p "Press any key to continue..." key
 }
+
 banner() {
     clear
     echo -e "\e[1;31m"
     if ! [ -x "$(command -v figlet)" ]; then
         echo 'The Echoer'
     else
-        figlet Echo
+        figlet "Echo"
     fi
     if ! [ -x "$(command -v toilet)" ]; then
         echo -e "\e[4;34m> . \e[1;32m< \e[0m"
     else
         echo -e "\e[1;34m>.< \e[1;34m"
-        toilet -f mono12 -F border
+        toilet -f mono12 -F border "Echo"
     fi
     echo " "
     echo " "
 }
 
 init_environ(){
-    declare -A backends; backends=(
+    declare -A backends=(
         ["arch"]="pacman -S --noconfirm"
         ["debian"]="apt-get -y install"
         ["ubuntu"]="apt -y install"
@@ -57,7 +59,7 @@ init_environ(){
 
     INSTALL="${backends[$distro]}"
 
-    if [ "$distro" == "termux" ]; then
+    if [ "$distro" = "termux" ]; then
         PYTHON="python"
         SUDO=""
     else
@@ -68,18 +70,17 @@ init_environ(){
 }
 
 install_deps(){
-
-    packages=(openssl git $PYTHON $PYTHON-pip figlet toilet)
-    if [ -n "$INSTALL" ];then
-        for package in ${packages[@]}; do
-            $SUDO $INSTALL $package
+    packages=(openssl git "$PYTHON" "$PYTHON-pip" figlet toilet)
+    if [ -n "$INSTALL" ]; then
+        for package in "${packages[@]}"; do
+            "$SUDO" "$INSTALL" "$package"
         done
-        $PIP install -r requirements.txt
+        "$PIP" install -r requirements.txt
     else
         echo "We could not install dependencies."
         echo "Please make sure you have git, python3, pip3 and requirements installed."
         echo "Then you can execute bomber.py ."
-        exit
+        exit 1
     fi
 }
 
@@ -87,17 +88,19 @@ banner
 pause
 detect_distro
 init_environ
-if [ -f .update ];then
+
+if [ -f ".update" ]; then
     echo "All Requirements Found...."
 else
     echo 'Installing Requirements....'
     echo .
     echo .
     install_deps
-    echo ^^ > .update
+    echo '^^ > .update'
     echo 'Requirements Installed....'
     pause
 fi
+
 while :
 do
     banner
@@ -108,29 +111,37 @@ do
     echo "Press 3 To  Start MAIL Echoer (Not Yet Available)"
     echo "Press 4 To  Update (Works On Linux And Linux Emulators) "
     echo "Press 5 To  Exit "
-    read ch
+    read -r ch
     clear
-    if [ $ch -eq 1 ];then
-        $PYTHON bomber.py --sms
-        exit
-    elif [ $ch -eq 2 ];then
-        $PYTHON bomber.py --call
-        exit
-    elif [ $ch -eq 3 ];then
-        $PYTHON bomber.py --mail
-        exit
-    elif [ $ch -eq 4 ];then
-        echo -e "\e[1;34m Downloading Latest Files..."
-        rm -f .update
-        $PYTHON bomber.py --update
-        echo -e "\e[1;34m RUN Echo Again..."
-        pause
-        exit
-    elif [ $ch -eq 5 ];then
-        banner
-        exit
-    else
-        echo -e "\e[4;32m Invalid Input !!! \e[0m"
-        pause
-    fi
+
+    case "$ch" in
+        "1")
+            "$PYTHON" bomber.py --sms
+            exit
+            ;;
+        "2")
+            "$PYTHON" bomber.py --call
+            exit
+            ;;
+        "3")
+            "$PYTHON" bomber.py --mail
+            exit
+            ;;
+        "4")
+            echo -e "\e[1;34m Downloading Latest Files..."
+            rm -f ".update"
+            "$PYTHON" bomber.py --update
+            echo -e "\e[1;34m RUN Echo Again..."
+            pause
+            exit
+            ;;
+        "5")
+            banner
+            exit
+            ;;
+        *)
+            echo -e "\e[4;32m Invalid Input !!! \e[0m"
+            pause
+            ;;
+    esac
 done
