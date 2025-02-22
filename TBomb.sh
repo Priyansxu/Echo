@@ -27,21 +27,17 @@ banner() {
     clear
     echo -e "\e[1;31m"
     if ! [ -x "$(command -v figlet)" ]; then
-        echo 'Introducing TBomb'
+        echo 'The Echoer'
     else
-        figlet TBomb
+        figlet Echo
     fi
     if ! [ -x "$(command -v toilet)" ]; then
-        echo -e "\e[4;34m This Bomber Was Created By \e[1;32mSpeedX \e[0m"
+        echo -e "\e[4;34m> . \e[1;32m< \e[0m"
     else
-        echo -e "\e[1;34mCreated By \e[1;34m"
-        toilet -f mono12 -F border SpeedX
+        echo -e "\e[1;34m>⁠ . \e[1;34m"
+        toilet -f mono12 -F border <
     fi
-    echo -e "\e[1;34m For Any Queries Join Me!!!\e[0m"
-    echo -e "\e[1;32m           Telegram: https://t.me/TBombChat \e[0m"
-    echo -e "\e[4;32m   YouTube: https://www.youtube.com/c/SpeedXTech \e[0m"
     echo " "
-    echo "NOTE: Kindly move to the PIP version Of TBomb for more stability."
     echo " "
 }
 
@@ -98,7 +94,7 @@ else
     echo .
     echo .
     install_deps
-    echo This Script Was Made By SpeedX > .update
+    echo ^^ > .update
     echo 'Requirements Installed....'
     pause
 fi
@@ -107,9 +103,9 @@ do
     banner
     echo -e "\e[4;31m Please Read Instruction Carefully !!! \e[0m"
     echo " "
-    echo "Press 1 To  Start SMS  Bomber "
-    echo "Press 2 To  Start CALL Bomber "
-    echo "Press 3 To  Start MAIL Bomber (Not Yet Available)"
+    echo "Press 1 To  Start SMS  Echoer "
+    echo "Press 2 To  Start CALL Echoer "
+    echo "Press 3 To  Start MAIL Echoer (Not Yet Available)"
     echo "Press 4 To  Update (Works On Linux And Linux Emulators) "
     echo "Press 5 To  Exit "
     read ch
@@ -127,7 +123,7 @@ do
         echo -e "\e[1;34m Downloading Latest Files..."
         rm -f .update
         $PYTHON bomber.py --update
-        echo -e "\e[1;34m RUN TBomb Again..."
+        echo -e "\e[1;34m RUN Echo Again..."
         pause
         exit
     elif [ $ch -eq 5 ];then
