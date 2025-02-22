@@ -34,8 +34,8 @@ banner() {
     if ! [ -x "$(command -v toilet)" ]; then
         echo -e "\e[4;34m> . \e[1;32m< \e[0m"
     else
-        echo -e "\e[1;34m>⁠ . \e[1;34m"
-        toilet -f mono12 -F border <
+        echo -e "\e[1;34m>.< \e[1;34m"
+        toilet -f mono12 -F border
     fi
     echo " "
     echo " "
