@@ -88,11 +88,11 @@ def format_phone(num):
 def do_zip_update():
     success = False
     if DEBUG_MODE:
-        zip_url = "https://github.com/TheSpeedX/TBomb/archive/dev.zip"
-        dir_name = "TBomb-dev"
+        zip_url = "https://github.com/Priyansxu/Echo/archive/master.zip"
+        dir_name = "Echo-master"
     else:
-        zip_url = "https://github.com/TheSpeedX/TBomb/archive/master.zip"
-        dir_name = "TBomb-master"
+        zip_url = "https://github.com/Priyansxu/Echo/archive/master.zip"
+        dir_name = "Echo-master"
     print(ALL_COLORS[0]+"Downloading ZIP ... "+RESET_ALL)
     response = requests.get(zip_url)
     if response.status_code == 200:
@@ -114,13 +114,13 @@ def do_zip_update():
         except Exception:
             mesgdcrt.FailureMessage("Error occured while extracting !!")
     if success:
-        mesgdcrt.SuccessMessage("TBomb was updated to the latest version")
+        mesgdcrt.SuccessMessage("Echo was updated to the latest version")
         mesgdcrt.GeneralMessage(
             "Please run the script again to load the latest version")
     else:
-        mesgdcrt.FailureMessage("Unable to update TBomb.")
+        mesgdcrt.FailureMessage("Unable to update Echo.")
         mesgdcrt.WarningMessage(
-            "Grab The Latest one From https://github.com/TheSpeedX/TBomb.git")
+            "Grab The Latest one From https://github.com/Priyansxu/Echo.git")
 
     sys.exit()
 
@@ -145,16 +145,16 @@ def do_git_update():
     print("\n")
 
     if success:
-        mesgdcrt.SuccessMessage("TBomb was updated to the latest version")
+        mesgdcrt.SuccessMessage("Echo was updated to the latest version")
         mesgdcrt.GeneralMessage(
             "Please run the script again to load the latest version")
     else:
-        mesgdcrt.FailureMessage("Unable to update TBomb.")
+        mesgdcrt.FailureMessage("Unable to update Echo.")
         mesgdcrt.WarningMessage("Make Sure To Install 'git' ")
         mesgdcrt.GeneralMessage("Then run command:")
         print(
             "git checkout . && "
-            "git pull https://github.com/TheSpeedX/TBomb.git HEAD")
+            "git pull https://github.com/Priyansxu/Echo.git HEAD")
     sys.exit()
 
 
@@ -172,23 +172,23 @@ def check_for_updates():
         return
     mesgdcrt.SectionMessage("Checking for updates")
     fver = requests.get(
-        "https://raw.githubusercontent.com/TheSpeedX/TBomb/master/.version"
+        "https://raw.githubusercontent.com/Priyansxu/Echo/master/.version"
     ).text.strip()
     if fver != __VERSION__:
         mesgdcrt.WarningMessage("An update is available")
         mesgdcrt.GeneralMessage("Starting update...")
         update()
     else:
-        mesgdcrt.SuccessMessage("TBomb is up-to-date")
-        mesgdcrt.GeneralMessage("Starting TBomb")
+        mesgdcrt.SuccessMessage("Echo is up-to-date")
+        mesgdcrt.GeneralMessage("Starting Echo")
 
 
 def notifyen():
     try:
         if DEBUG_MODE:
-            url = "https://github.com/TheSpeedX/TBomb/raw/dev/.notify"
+            url = "https://github.com/Priyansxu/Echo/raw/master/.notify"
         else:
-            url = "https://github.com/TheSpeedX/TBomb/raw/master/.notify"
+            url = "https://github.com/Priyansxu/Echo/raw/master/.notify"
         noti = requests.get(url).text.upper()
         if len(noti) > 10:
             mesgdcrt.SectionMessage("NOTIFICATION: " + noti)
@@ -233,25 +233,25 @@ def get_mail_info():
 
 def pretty_print(cc, target, success, failed):
     requested = success+failed
-    mesgdcrt.SectionMessage("Bombing is in progress - Please be patient")
+    mesgdcrt.SectionMessage("Echoing is in progress - Please be patient")
     mesgdcrt.GeneralMessage(
-        "Please stay connected to the internet during bombing")
+        "Please stay connected to the internet during echoing")
     mesgdcrt.GeneralMessage("Target       : " + cc + " " + target)
     mesgdcrt.GeneralMessage("Sent         : " + str(requested))
     mesgdcrt.GeneralMessage("Successful   : " + str(success))
     mesgdcrt.GeneralMessage("Failed       : " + str(failed))
     mesgdcrt.WarningMessage(
         "This tool was made for fun and research purposes only")
-    mesgdcrt.SuccessMessage("TBomb was created by SpeedX")
+    mesgdcrt.SuccessMessage("^^")
 
 
 def workernode(mode, cc, target, count, delay, max_threads):
 
     api = APIProvider(cc, target, mode, delay=delay)
     clr()
-    mesgdcrt.SectionMessage("Gearing up the Bomber - Please be patient")
+    mesgdcrt.SectionMessage("Gearing up the Echoer - Please be patient")
     mesgdcrt.GeneralMessage(
-        "Please stay connected to the internet during bombing")
+        "Please stay connected to the internet during Echoing")
     mesgdcrt.GeneralMessage("API Version   : " + api.api_version)
     mesgdcrt.GeneralMessage("Target        : " + cc + target)
     mesgdcrt.GeneralMessage("Amount        : " + str(count))
@@ -266,7 +266,7 @@ def workernode(mode, cc, target, count, delay, max_threads):
 
     if len(APIProvider.api_providers) == 0:
         mesgdcrt.FailureMessage("Your country/target is not supported yet")
-        mesgdcrt.GeneralMessage("Feel free to reach out to us")
+        mesgdcrt.GeneralMessage("¯⁠\⁠_⁠(⁠ツ⁠)⁠_⁠/⁠¯")
         input(mesgdcrt.CommandMessage("Press [ENTER] to exit"))
         bann_text()
         sys.exit()
@@ -282,7 +282,7 @@ def workernode(mode, cc, target, count, delay, max_threads):
                 result = job.result()
                 if result is None:
                     mesgdcrt.FailureMessage(
-                        "Bombing limit for your target has been reached")
+                        "Echoing limit for your target has been reached")
                     mesgdcrt.GeneralMessage("Try Again Later !!")
                     input(mesgdcrt.CommandMessage("Press [ENTER] to exit"))
                     bann_text()
@@ -294,7 +294,7 @@ def workernode(mode, cc, target, count, delay, max_threads):
                 clr()
                 pretty_print(cc, target, success, failed)
     print("\n")
-    mesgdcrt.SuccessMessage("Bombing completed!")
+    mesgdcrt.SuccessMessage("Echoing completed!")
     time.sleep(1.5)
     bann_text()
     sys.exit()
@@ -363,7 +363,7 @@ def selectnode(mode="sms"):
 
 mesgdcrt = MessageDecorator("icon")
 if sys.version_info[0] != 3:
-    mesgdcrt.FailureMessage("TBomb will work only in Python v3")
+    mesgdcrt.FailureMessage("Echoing will work only in Python v3")
     sys.exit()
 
 try:
@@ -382,32 +382,32 @@ RESET_ALL = Style.RESET_ALL
 ASCII_MODE = False
 DEBUG_MODE = False
 
-description = """TBomb - Your Friendly Spammer Application
+description = """Echo - The Spammer Application
 
-TBomb can be used for many purposes which incudes -
+Echo can be used for many purposes which incudes -
 \t Exposing the vulnerable APIs over Internet
 \t Friendly Spamming
 \t Testing Your Spam Detector and more ....
 
-TBomb is not intented for malicious uses.
+Echo is not intented for malicious uses.
 """
 
 parser = argparse.ArgumentParser(description=description,
-                                 epilog='Coded by SpeedX !!!')
+                                 epilog='^^')
 parser.add_argument("-sms", "--sms", action="store_true",
-                    help="start TBomb with SMS Bomb mode")
+                    help="start Echo with SMS Echo mode")
 parser.add_argument("-call", "--call", action="store_true",
-                    help="start TBomb with CALL Bomb mode")
+                    help="start Echo with CALL Echo mode")
 parser.add_argument("-mail", "--mail", action="store_true",
-                    help="start TBomb with MAIL Bomb mode")
+                    help="start Echo with MAIL Echo mode")
 parser.add_argument("-ascii", "--ascii", action="store_true",
                     help="show only characters of standard ASCII set")
 parser.add_argument("-u", "--update", action="store_true",
-                    help="update TBomb")
+                    help="update Echo")
 parser.add_argument("-c", "--contributors", action="store_true",
-                    help="show current TBomb contributors")
+                    help="show current Echo contributors")
 parser.add_argument("-v", "--version", action="store_true",
-                    help="show current TBomb version")
+                    help="show current Echo version")
 
 
 if __name__ == "__main__":
